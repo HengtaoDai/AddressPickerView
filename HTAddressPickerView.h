@@ -33,7 +33,7 @@ typedef void(^HTAddressBlock)(NSDictionary *dic);
 
 @interface HTAddressPickerView : UIView
 
-@property (nonatomic,strong) id<HTAddressPickerViewDelegate> delegate;
+@property (nonatomic,week) id<HTAddressPickerViewDelegate> delegate;
 @property (nonatomic,assign) NSInteger numberOfComponents;  //滚轮的列数
 
 /*
