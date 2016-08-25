@@ -9,6 +9,7 @@
 #import "HTAddressPickerView.h"
 #import "HTAddressBean.h"
 
+#define G_SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 static const CGFloat kAnimateDuration = 0.3;        //动画持续时间
 static NSString *const keyForCity = @"cities";      //字典中城市数组所对应的key
 static NSString *const keyForRegion = @"districts"; //字典中县/区数组所对应的key
@@ -46,7 +47,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
         //黑色背景
         _viewBack = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         _viewBack.backgroundColor = RGBACOLOR(0, 0, 0, 0.6);
-        [_viewBack addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(btnCancel)]];
+        [_viewBack addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(btnCancel)]];
         [self addSubview:_viewBack];
         
         //滚轮
@@ -62,7 +63,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
         [_viewBack addSubview:_viewButtons];
         
         //取消按钮
-        UIButton *btnCancel = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, _viewButtons.frame.size.width/2, 44)];
+        UIButton *btnCancel = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, _viewButtons.frame.size.width/2, 44)];
         [btnCancel setTitle:@"取消" forState:UIControlStateNormal];
         [btnCancel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         btnCancel.backgroundColor = [UIColor whiteColor];
@@ -71,7 +72,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
         
         //确定按钮
         CGFloat left = btnCancel.frame.origin.x + btnCancel.frame.size.width;
-        UIButton *btnSure = [[UIButton alloc]initWithFrame:CGRectMake(left, btnCancel.frame.origin.y, btnCancel.frame.size.width, 44)];
+        UIButton *btnSure = [[UIButton alloc] initWithFrame:CGRectMake(left, btnCancel.frame.origin.y, btnCancel.frame.size.width, 44)];
         [btnSure setTitle:@"确定" forState:UIControlStateNormal];
         [btnSure setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         btnSure.backgroundColor = [UIColor whiteColor];
@@ -80,7 +81,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
         
         //分割线
         CGFloat top = btnCancel.frame.origin.y + btnCancel.frame.size.height;
-        UIView *hxLine = [[UIView alloc]initWithFrame:CGRectMake(0, top, _pickerView.frame.size.width, 1)];
+        UIView *hxLine = [[UIView alloc] initWithFrame:CGRectMake(0, top, _pickerView.frame.size.width, 1)];
         hxLine.backgroundColor = RGBCOLOR(230, 230, 230);
         [_viewButtons addSubview:hxLine];
     }
@@ -104,7 +105,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
 {
     //读取plist文件
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"area" ofType:@"plist"];
-    NSArray *arrData = [[NSMutableArray alloc]initWithContentsOfFile:plistPath];
+    NSArray *arrData = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
     
     return [self initWithFrame:frame withAddressArray:arrData];
 }
@@ -299,7 +300,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
     UILabel *lbl = (UILabel *)view;
     if (!lbl)
     {
-        lbl = [[UILabel alloc]init];
+        lbl = [[UILabel alloc] init];
         lbl.textColor = [UIColor blackColor];
         lbl.textAlignment = NSTextAlignmentCenter;
         if (_numberOfComponents > 2)
