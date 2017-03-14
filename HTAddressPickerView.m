@@ -15,35 +15,36 @@ static NSString *const keyForCity = @"cities";      //字典中城市数组所�
 static NSString *const keyForRegion = @"districts"; //字典中县/区数组所对应的key
 
 @interface HTAddressPickerView () <UIPickerViewDelegate,UIPickerViewDataSource>
-{
-    UIView          *_viewBack;         //背景视图
-    UIView          *_viewButtons;
-    NSInteger       _iProvinceRow;      //当前省所在的行数
-    NSInteger       _iCityRow;          //当前市所在的行数
-    NSInteger       _iRegionRow;        //当前县/区所在的行数
-    UIPickerView    *_pickerView;       //地址选择器
-    NSMutableArray  *_marrAlldata;      //总数据
-    NSMutableArray  *_marrProvince;     //所有省
-    NSMutableArray  *_marrCity;         //当前省的所有市
-    NSMutableArray  *_marrRegion;       //当前市的所有县/区
-    HTAddressBlock  _block;
-}
+
+@property (nonatomic, strong) UIView *viewBack;         //背景视图
+@property (nonatomic, strong) UIView *viewButtons;      //按钮背景
+
+@property (nonatomic, strong) UIPickerView *pickerView;       //地址选择器
+
+@property (nonatomic, assign) NSInteger iProvinceRow;      //当前省所在的行数
+@property (nonatomic, assign) NSInteger iCityRow;          //当前市所在的行数
+@property (nonatomic, assign) NSInteger iRegionRow;        //当前县/区所在的行数
+
+@property (nonatomic, strong) NSMutableArray *marrAlldata;      //总数据
+@property (nonatomic, strong) NSMutableArray *marrProvince;     //所有省
+@property (nonatomic, strong) NSMutableArray *marrCity;         //当前省的所有市
+@property (nonatomic, strong) NSMutableArray *marrRegion;       //当前市的所有县/区
 
 @end
 
 @implementation HTAddressPickerView
 
-- (id)initWithFrame:(CGRect)frame withAddressArray:(NSArray *)arrData;
-{
-    if (self == [super initWithFrame:frame])
-    {
+- (id)initWithFrame:(CGRect)frame withAddressArray:(NSArray *)arrData {
+    if (self == [super initWithFrame:frame]) {
         _marrAlldata = [arrData mutableCopy];
         
         //初始化数组
         _marrProvince = [NSMutableArray array];
         _marrCity = [NSMutableArray array];
         _marrRegion = [NSMutableArray array];
-        
+    
+        _numberOfComponents = 2; //默认列数
+    
         //黑色背景
         _viewBack = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         _viewBack.backgroundColor = RGBACOLOR(0, 0, 0, 0.6);
@@ -67,6 +68,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
         [btnCancel setTitle:@"取消" forState:UIControlStateNormal];
         [btnCancel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         btnCancel.backgroundColor = [UIColor whiteColor];
+        [btnCancel setTitleEdgeInsets:UIEdgeInsetsMake(0, -50, 0, 0)];
         [btnCancel addTarget:self action:@selector(btnCancel) forControlEvents:UIControlEventTouchUpInside];
         [_viewButtons addSubview:btnCancel];
         
@@ -76,6 +78,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
         [btnSure setTitle:@"确定" forState:UIControlStateNormal];
         [btnSure setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         btnSure.backgroundColor = [UIColor whiteColor];
+        [btnSure setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -50)];
         [btnSure addTarget:self action:@selector(btnSure) forControlEvents:UIControlEventTouchUpInside];
         [_viewButtons addSubview:btnSure];
         
@@ -92,7 +95,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
 
 - (id)initWithFrame:(CGRect)frame withAddressArray:(NSArray *)arrData withAddressBlock:(HTAddressBlock)block
 {
-    _block = block;
+    _addrBlock = block;
     
     return [self initWithFrame:frame withAddressArray:arrData];
 }
@@ -113,7 +116,7 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
 
 - (id)initWithFrame:(CGRect)frame withAddressBlock:(HTAddressBlock)block
 {
-    _block = block;
+    _addrBlock = block;
     
     return [self initWithFrame:frame];
 }
@@ -240,9 +243,9 @@ static NSString *const keyForRegion = @"districts"; //字典中县/区数组所�
     {
         [_delegate addressInfo:mdic];
     }
-    if (_block)     //调用block
+    if (_addrBlock)     //调用block
     {
-        _block(mdic);
+        _addrBlock(mdic);
     }
     
     [self btnCancel];

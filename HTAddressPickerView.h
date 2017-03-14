@@ -7,6 +7,7 @@
 //  需将本视图加载到 self.view.window 上
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 //typedef struct {
 //    char *strID;
@@ -33,8 +34,9 @@ typedef void(^HTAddressBlock)(NSDictionary *dic);
 
 @interface HTAddressPickerView : UIView
 
-@property (nonatomic,weak) id<HTAddressPickerViewDelegate> delegate;
-@property (nonatomic,assign) NSInteger numberOfComponents;  //滚轮的列数
+@property (nonatomic, weak) id<HTAddressPickerViewDelegate> delegate;
+@property (nonatomic, assign) NSInteger numberOfComponents;  //滚轮的列数，默认2
+@property (nonatomic, strong) HTAddressBlock addrBlock;
 
 /*
  arrData: 使用用户指定的省、市、区所有的数据
